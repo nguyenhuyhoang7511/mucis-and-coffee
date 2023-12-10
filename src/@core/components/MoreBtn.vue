@@ -10,7 +10,6 @@ const props = defineProps<Props>()
 <template>
   <IconBtn>
     <VIcon icon="bx-dots-vertical" />
-
     <VMenu
       v-if="props.menuList"
       activator="parent"
