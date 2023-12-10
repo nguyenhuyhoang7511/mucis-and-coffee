@@ -13,6 +13,14 @@ const router = createRouter({
           component: () => import('../pages/dashboard.vue'),
         },
         {
+          path: 'music',
+          component: () => import('../pages/music.vue'),
+        },
+        {
+          path: 'order',
+          component: () => import('../pages/order.vue'),
+        },
+        {
           path: 'account-settings',
           component: () => import('../pages/account-settings.vue'),
         },

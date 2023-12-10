@@ -51,7 +51,7 @@ const handleNavScroll = (evt: Event) => {
     ]"
   >
     <!-- 👉 Header -->
-    <div class="nav-header">
+    <div class="nav-header container-logo">
       <slot name="nav-header">
         <RouterLink
           to="/"
@@ -60,7 +60,7 @@ const handleNavScroll = (evt: Event) => {
           <div
             class="d-flex"
           />
-          <VIcon icon="bx-music" size="32"/>
+          <VIcon icon="bx-album" size="32"/>
           <h4 class="leading-normal">
             MUSIC & COFFEE
           </h4>
@@ -92,6 +92,9 @@ const handleNavScroll = (evt: Event) => {
 @use "@configured-variables" as variables;
 @use "@layouts/styles/mixins";
 
+.container-logo{
+  margin-left: -22px !important;
+}
 // 👉 Vertical Nav
 .layout-vertical-nav {
   position: fixed;
