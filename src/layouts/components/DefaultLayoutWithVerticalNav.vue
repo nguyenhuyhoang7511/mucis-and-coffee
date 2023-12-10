@@ -27,18 +27,12 @@ const upgradeBanner = computed(() => {
     <template #navbar="{ toggleVerticalOverlayNavActive }">
       <div class="d-flex h-100 align-center">
         <!-- 👉 Vertical nav toggle in overlay mode -->
-        <IconBtn
-          class="ms-n3 d-lg-none"
-          @click="toggleVerticalOverlayNavActive(true)"
-        >
+        <IconBtn class="ms-n3 d-lg-none" @click="toggleVerticalOverlayNavActive(true)">
           <VIcon icon="bx-menu" />
         </IconBtn>
 
         <!-- 👉 Search -->
-        <div
-          class="d-flex align-center cursor-pointer"
-          style="user-select: none;"
-        >
+        <div class="d-flex align-center cursor-pointer" style="user-select: none;">
           <!-- 👉 Search Trigger button -->
           <IconBtn>
             <VIcon icon="bx-search" />
@@ -52,15 +46,6 @@ const upgradeBanner = computed(() => {
 
         <VSpacer />
 
-        <IconBtn
-          class="me-2"
-          href="https://github.com/themeselection/sneat-vuetify-vuejs-admin-template-free"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <VIcon icon="bxl-github" />
-        </IconBtn>
-
         <IconBtn class="me-2">
           <VIcon icon="bx-bell" />
         </IconBtn>
@@ -72,100 +57,87 @@ const upgradeBanner = computed(() => {
     </template>
 
     <template #vertical-nav-content>
-      <VerticalNavLink
-        :item="{
-          title: 'Dashboard',
-          icon: 'bx-home',
-          to: '/dashboard',
-        }"
-      />
-      <VerticalNavLink
-        :item="{
-          title: 'Account Settings',
-          icon: 'mdi-account-cog-outline',
-          to: '/account-settings',
-        }"
-      />
+      <VerticalNavLink :item="{
+        title: 'Bảng tin',
+        icon: 'bx-home',
+        to: '/dashboard',
+      }" />
+      <VerticalNavLink :item="{
+        title: 'Âm nhạc',
+        icon: 'bx-music',
+        to: '/music',
+      }" />
+      <VerticalNavLink :item="{
+        title: 'Thực đơn',
+        icon: 'bx-food-menu',
+        to: '/order',
+      }" />
+      <VerticalNavLink :item="{
+        title: 'Danh sách phát',
+        icon: 'bx-list-ol',
+        to: '/',
+      }" />
+      <VerticalNavLink :item="{
+        title: 'Account Settings',
+        icon: 'mdi-account-cog-outline',
+        to: '/account-settings',
+      }" />
 
       <!-- 👉 Pages -->
-      <VerticalNavSectionTitle
-        :item="{
-          heading: 'Pages',
-        }"
-      />
-      <VerticalNavLink
-        :item="{
-          title: 'Login',
-          icon: 'bx-log-in',
-          to: '/login',
-        }"
-      />
-      <VerticalNavLink
-        :item="{
-          title: 'Register',
-          icon: 'bx-user-plus',
-          to: '/register',
-        }"
-      />
-      <VerticalNavLink
-        :item="{
-          title: 'Error',
-          icon: 'bx-info-circle',
-          to: '/no-existence',
-        }"
-      />
+      <VerticalNavSectionTitle :item="{
+        heading: 'Cá nhân',
+      }" />
+      <VerticalNavLink :item="{
+        title: 'Đồ uống yêu thích',
+        icon: 'bx-star',
+        to: '/',
+      }" />
+      <VerticalNavLink :item="{
+        title: 'Quản lý nhạc',
+        icon: 'bx-data',
+        to: '/',
+      }" />
+      <VerticalNavLink :item="{
+        title: 'Tải nhạc lên',
+        icon: 'bx-upload',
+        to: '/',
+      }" />
 
       <!-- 👉 User Interface -->
-      <VerticalNavSectionTitle
-        :item="{
-          heading: 'User Interface',
-        }"
-      />
-      <VerticalNavLink
-        :item="{
-          title: 'Typography',
-          icon: 'mdi-alpha-t-box-outline',
-          to: '/typography',
-        }"
-      />
-      <VerticalNavLink
-        :item="{
-          title: 'Icons',
-          icon: 'bx-show',
-          to: '/icons',
-        }"
-      />
-      <VerticalNavLink
-        :item="{
-          title: 'Cards',
-          icon: 'bx-credit-card',
-          to: '/cards',
-        }"
-      />
-      <VerticalNavLink
-        :item="{
-          title: 'Tables',
-          icon: 'bx-table',
-          to: '/tables',
-        }"
-      />
-      <VerticalNavLink
-        :item="{
-          title: 'Form Layouts',
-          icon: 'mdi-form-select',
-          to: '/form-layouts',
-        }"
-      />
+      <VerticalNavSectionTitle :item="{
+        heading: 'Dịch vụ khác',
+      }" />
+      <VerticalNavLink :item="{
+        title: 'Typography',
+        icon: 'mdi-alpha-t-box-outline',
+        to: '/typography',
+      }" />
+      <VerticalNavLink :item="{
+        title: 'Icons',
+        icon: 'bx-show',
+        to: '/icons',
+      }" />
+      <VerticalNavLink :item="{
+        title: 'Cards',
+        icon: 'bx-credit-card',
+        to: '/cards',
+      }" />
+      <VerticalNavLink :item="{
+        title: 'Tables',
+        icon: 'bx-table',
+        to: '/tables',
+      }" />
+      <VerticalNavLink :item="{
+        title: 'Form Layouts',
+        icon: 'mdi-form-select',
+        to: '/form-layouts',
+      }" />
     </template>
 
     <template #after-vertical-nav-items>
       <!-- 👉 illustration -->
-      <a
-        href="https://themeselection.com/item/sneat-vuetify-vuejs-admin-template"
-        target="_blank"
-        rel="noopener noreferrer"
-        style="margin-left: 7px;"
-      >
+      <a href="https://themeselection.com/item/sneat-vuetify-vuejs-admin-template" target="_blank"
+        rel="noopener noreferrer" style="margin-left: 7px;">
       </a>
     </template>
 
