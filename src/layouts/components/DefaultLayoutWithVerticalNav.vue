@@ -74,7 +74,7 @@ const upgradeBanner = computed(() => {
       }" />
       <VerticalNavLink :item="{
         title: 'Danh sách phát',
-        icon: 'bx-list-ol',
+        icon: 'mdi-playlist-music',
         to: '/',
       }" />
       <VerticalNavLink :item="{
@@ -89,7 +89,7 @@ const upgradeBanner = computed(() => {
       }" />
       <VerticalNavLink :item="{
         title: 'Đồ uống yêu thích',
-        icon: 'bx-star',
+        icon: 'mdi-heart-box-outline',
         to: '/',
       }" />
       <VerticalNavLink :item="{
@@ -102,29 +102,38 @@ const upgradeBanner = computed(() => {
         icon: 'bx-upload',
         to: '/',
       }" />
-
+      <VerticalNavLink :item="{
+        title: 'Bảo mật',
+        icon: 'mdi-security',
+        to: '/',
+      }" />
+      <VerticalNavLink :item="{
+      title: 'Ví tiền',
+      icon: 'mdi-cash-multiple',
+      to: '/',
+      }" />
       <!-- 👉 User Interface -->
       <VerticalNavSectionTitle :item="{
         heading: 'Dịch vụ khác',
       }" />
       <VerticalNavLink :item="{
-        title: 'Typography',
-        icon: 'mdi-alpha-t-box-outline',
-        to: '/typography',
+        title: 'Quà tặng',
+        icon: 'bx-gift',
+        to: '/',
       }" />
       <VerticalNavLink :item="{
-        title: 'Icons',
-        icon: 'bx-show',
+        title: 'Vui cùng AI',
+        icon: 'bx-bot',
         to: '/icons',
       }" />
       <VerticalNavLink :item="{
-        title: 'Cards',
-        icon: 'bx-credit-card',
+        title: 'Tạo avatar',
+        icon: 'mdi-image-plus-outline',
         to: '/cards',
       }" />
       <VerticalNavLink :item="{
-        title: 'Tables',
-        icon: 'bx-table',
+        title: 'Maps',
+        icon: 'mdi-google-maps',
         to: '/tables',
       }" />
       <VerticalNavLink :item="{
