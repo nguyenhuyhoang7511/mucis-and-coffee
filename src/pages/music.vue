@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CardMusicItem from '@/@core/components/cards/CardMusicItem.vue';
+import CardYoutobeItem from '@/@core/components/cards/CardYoutobeItem.vue';
 
 
 // 👉 Images
@@ -43,7 +43,13 @@ const listMusic = ref<MusicItem[]>([
     duration: "03:13",
     avatar: 'https://photo-zmp3.zmdcdn.me/banner/2/f/9/0/2f9025f0663f722ff0e95de1b68901d5.jpg'
   },
-
+  {
+    id: "6",
+    name: "Nghe Nói Anh Yêu Em",
+    author: "Châu Khải Phong",
+    duration: "03:13",
+    avatar: 'https://photo-zmp3.zmdcdn.me/banner/2/f/9/0/2f9025f0663f722ff0e95de1b68901d5.jpg'
+  }
 ]);
 
 const inputSearch = ref('')
@@ -57,7 +63,7 @@ const inputSearch = ref('')
         placeholder="Tìm kiếm nhạc trên youtobe" persistent-placeholder variant="underlined" />
     </VCol>
     <VCol cols="12" md="6" lg="3" v-for="item in listMusic">
-      <CardMusicItem :key="item.id" :name="item.name" :author="item.author" :duration="item.duration"
+      <CardYoutobeItem :key="item.id" :name="item.name" :author="item.author" :duration="item.duration"
         :avatar="item.avatar" />
     </VCol>
 
