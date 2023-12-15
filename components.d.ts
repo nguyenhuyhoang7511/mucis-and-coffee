@@ -24,6 +24,7 @@ declare module '@vue/runtime-core' {
     AppStepper: typeof import('./src/@core/components/AppStepper.vue')['default']
     BuyNow: typeof import('./src/@core/components/BuyNow.vue')['default']
     CardAddEditDialog: typeof import('./src/components/dialogs/CardAddEditDialog.vue')['default']
+    CardEventItem: typeof import('./src/@core/components/cards/CardEventItem.vue')['default']
     CardMusicItem: typeof import('./src/@core/components/cards/CardMusicItem.vue')['default']
     CardProductItem: typeof import('./src/@core/components/cards/CardProductItem.vue')['default']
     CardStatisticsHorizontal: typeof import('./src/@core/components/cards/CardStatisticsHorizontal.vue')['default']

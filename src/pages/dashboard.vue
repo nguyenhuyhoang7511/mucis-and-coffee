@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CardEventItem from '@/@core/components/cards/CardEventItem.vue'
 import AnalyticsCongratulations from '@/views/dashboard/AnalyticsCongratulations.vue'
 import AnalyticsFinanceTabs from '@/views/dashboard/AnalyticsFinanceTab.vue'
 import AnalyticsOrderStatistics from '@/views/dashboard/AnalyticsOrderStatistics.vue'
@@ -14,6 +15,16 @@ import wallet from '@images/cards/wallet-info.png'
 </script>
 
 <template>
+
+  <VRow>
+    <VCol
+      cols="12"
+      md="12"
+
+    >
+      <CardEventItem />
+    </VCol>
+  </VRow>
   <VRow>
     <!-- 👉 Congratulations -->
     <VCol
