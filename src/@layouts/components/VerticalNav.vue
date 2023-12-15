@@ -60,7 +60,7 @@ const handleNavScroll = (evt: Event) => {
           <div
             class="d-flex"
           />
-          <VIcon icon="bx-album" size="32"/>
+          <VIcon icon="mdi-music-box-multiple-outline" size="32"/>
           <h4 class="leading-normal">
             MUSIC & COFFEE
           </h4>
