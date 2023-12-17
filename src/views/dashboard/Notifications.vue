@@ -54,7 +54,7 @@ const listNotification = ref<NotificationItem[]>([
 </script>
 
 <template>
-  <VCard class="text-center text-sm-start">
+  <VCard class="text-center text-sm-start  height-container-card">
     <VRow no-gutters>
       <VCol
         cols="12"
@@ -69,12 +69,21 @@ const listNotification = ref<NotificationItem[]>([
         <div v-for="item in listNotification" class="w-100 pl-8 pr-8 pb-6">
           <CardNotificationItem :time="item.time" :image="item.image" :description="item.description" :title="item.title" :author="item.author"/>
         </div>
+        <v-pagination
+          :length="4"
+          rounded="circle"
+        
+        ></v-pagination>
       </VCol>
     </VRow>
   </VCard>
 </template>
 
 <style lang="scss" scoped>
+.height-container-card{
+  height: 50rem !important;
+  overflow: auto;
+}
 .john-illustration {
   inset-block-end: -0.0625rem;
   inset-inline-end: 3rem;

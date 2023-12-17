@@ -37,4 +37,7 @@ const props = defineProps<Props>()
   color: green;
   font-weight: 700;
 }
+.card-title{
+  font-weight: 700;
+}
 </style>

@@ -38,7 +38,7 @@ const users = ref<User[]>([
 </script>
 
 <template>
-  <VCard class="text-center text-sm-start pa-0 ">
+  <VCard class="text-center text-sm-start pa-0 height-container-card">
     <VRow no-gutters>
       <VCol
         cols="12"
@@ -57,4 +57,9 @@ const users = ref<User[]>([
     </VRow>
   </VCard>
 </template>
-<style scoped></style>
+<style scoped>
+.height-container-card{
+  height: 50rem !important;
+  overflow: auto;
+}
+</style>
