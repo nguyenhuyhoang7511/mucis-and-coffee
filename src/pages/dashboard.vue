@@ -14,16 +14,10 @@ import paypal from '@images/cards/paypal-error.png'
 import wallet from '@images/cards/wallet-info.png'
 
 const getData = async () => {
-  const data = await axiosClient.get(`http://localhost:8000/api/test`);
+  const { data } = await axiosClient.get(`http://localhost:8000/api/test`);
 }
-
-const apiEndpoint = process.env.VUE_APP_API_ENDPOINT;
-
-
 onMounted(() => {
   getData();
-  console.log("getdata")
-  console.log(apiEndpoint);
 
 })
 </script>
