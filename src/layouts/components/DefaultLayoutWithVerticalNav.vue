@@ -64,24 +64,25 @@ const upgradeBanner = computed(() => {
       }" />
       <VerticalNavLink :item="{
         title: 'Âm nhạc',
-        icon: 'mdi-music-circle-outline',
+        icon: 'bx-music',
         to: '/music',
       }" />
       <VerticalNavLink :item="{
         title: 'Thực đơn',
-        icon: 'mdi-food',
+        icon: 'bx-food-menu',
         to: '/order',
       }" />
       <VerticalNavLink :item="{
-        title: 'Albums',
-        icon: 'mdi-image-album',
-        to: '/account-settings',
+        title: 'Danh sách phát',
+        icon: 'mdi-playlist-music',
+        to: '/',
       }" />
       <VerticalNavLink :item="{
-            title: 'Danh sách phát',
-            icon: 'mdi-playlist-music',
-            to: '/',
+        title: 'Account Settings',
+        icon: 'mdi-account-cog-outline',
+        to: '/account-settings',
       }" />
+
       <!-- 👉 Pages -->
       <VerticalNavSectionTitle :item="{
         heading: 'Cá nhân',

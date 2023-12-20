@@ -1,44 +1,73 @@
 <script setup lang="ts">
-import CardUserItem from '@/@core/components/cards/CardUserItem.vue'
-import Notifications from '@/views/dashboard/Notifications.vue'
+import axiosClient from '@/apis/axios/axiosConfig'
+import AnalyticsCongratulations from '@/views/dashboard/AnalyticsCongratulations.vue'
 import AnalyticsFinanceTabs from '@/views/dashboard/AnalyticsFinanceTab.vue'
 import AnalyticsOrderStatistics from '@/views/dashboard/AnalyticsOrderStatistics.vue'
 import AnalyticsProfitReport from '@/views/dashboard/AnalyticsProfitReport.vue'
 import AnalyticsTotalRevenue from '@/views/dashboard/AnalyticsTotalRevenue.vue'
 import AnalyticsTransactions from '@/views/dashboard/AnalyticsTransactions.vue'
-import EventView from '@/views/dashboard/EventView.vue'
-import UserTop from '@/views/dashboard/UserTop.vue'
 
 // 👉 Images
 import chart from '@images/cards/chart-success.png'
 import card from '@images/cards/credit-card-primary.png'
 import paypal from '@images/cards/paypal-error.png'
 import wallet from '@images/cards/wallet-info.png'
+
+const getData = async () => {
+  const data = await axiosClient.get(`http://localhost:8000/api/test`);
+}
+
+const apiEndpoint = process.env.VUE_APP_API_ENDPOINT;
+
+
+onMounted(() => {
+  getData();
+  console.log("getdata")
+  console.log(apiEndpoint);
+
+})
 </script>
 
 <template>
-  <EventView />
   <VRow>
     <!-- 👉 Congratulations -->
     <VCol cols="12" md="8">
-      <Notifications />
+      <AnalyticsCongratulations />
     </VCol>
 
     <VCol cols="12" sm="4">
       <VRow>
-        <VCol cols="12" md="12">
-          <UserTop />
+        <!-- 👉 Profit -->
+        <VCol cols="12" md="6">
+          <CardStatisticsVertical v-bind="{
+            title: 'Profit',
+            image: chart,
+            stats: '$12,628',
+            change: 72.80,
+          }" />
+        </VCol>
+
+        <!-- 👉 Sales -->
+        <VCol cols="12" md="6">
+          <CardStatisticsVertical v-bind="{
+            title: 'Sales',
+            image: wallet,
+            stats: '$4,679',
+            change: 28.42,
+          }" />
         </VCol>
       </VRow>
     </VCol>
 
+    <!-- 👉 Total Revenue -->
     <VCol cols="12" md="8" order="2" order-md="1">
       <AnalyticsTotalRevenue />
     </VCol>
 
-    <VCol cols="12" sm="12" md="12" order="12" order-md="12">
+    <VCol cols="12" sm="8" md="4" order="1" order-md="2">
       <VRow>
-        <VCol cols="12" sm="12">
+        <!-- 👉 Payments -->
+        <VCol cols="12" sm="6">
           <CardStatisticsVertical v-bind="{
             title: 'Payments',
             image: paypal,
@@ -47,6 +76,7 @@ import wallet from '@images/cards/wallet-info.png'
           }" />
         </VCol>
 
+        <!-- 👉 Revenue -->
         <VCol cols="12" sm="6">
           <CardStatisticsVertical v-bind="{
             title: 'Transactions',
@@ -57,12 +87,20 @@ import wallet from '@images/cards/wallet-info.png'
         </VCol>
       </VRow>
 
+      <VRow>
+        <!-- 👉 Profit Report -->
+        <VCol cols="12" sm="12">
+          <AnalyticsProfitReport />
+        </VCol>
+      </VRow>
     </VCol>
 
+    <!-- 👉 Order Statistics -->
     <VCol cols="12" md="4" sm="6" order="3">
       <AnalyticsOrderStatistics />
     </VCol>
 
+    <!-- 👉 Tabs chart -->
     <VCol cols="12" md="4" sm="6" order="3">
       <AnalyticsFinanceTabs />
     </VCol>
