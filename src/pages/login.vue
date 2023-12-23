@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import AuthProvider from '@/views/pages/authentication/AuthProvider.vue';
-import logo from '@images/logo.svg?raw';
 
 const form = ref({
   email: '',
@@ -9,27 +7,68 @@ const form = ref({
 })
 
 const isPasswordVisible = ref(false)
+
+const handleLogin = () => {
+  console.log("hello");
+
+  console.log(form.value)
+}
+
 </script>
 
 <template>
-  <div class="auth-wrapper d-flex align-center justify-end pa-4 container-card-login">
-    <VCard class="auth-card pa-4 pt-7 " max-width="800">
-      <VCardItem class="justify-center">
-        <template #prepend>
-          <div class="d-flex">
-            <div class="d-flex text-primary" v-html="logo" />
-          </div>
-        </template>
-
-        <VCardTitle class="text-2xl font-weight-bold">
-          MUSIC AND COFFEE
+  <div class="auth-wrapper d-flex align-center justify-center pa-4 container-card-login ">
+    <VCard class="auth-card pa-4 pt-7 login-image-card" width="1000" height="75%"></VCard>
+    <VCard class="auth-card pa-4 pt-7 login-form-card" max-width="600" height="75%">
+      <VCardItem class="justify-center mb-4">
+        <VCardTitle class="text-2xl ">
+          <p class="login-title-bot">
+            MUSIC & COFFEE
+          </p>
         </VCardTitle>
       </VCardItem>
 
       <VCardText class="pt-2">
+        <div class="d-flex flex-column justify-center w-100">
+          <VBtn class="login-sercives ">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="41" height="32" viewBox="0 0 48 48">
+              <path fill="#3f51b5" d="M24 4A20 20 0 1 0 24 44A20 20 0 1 0 24 4Z"></path>
+              <path fill="#fff"
+                d="M29.368,24H26v12h-5V24h-3v-4h3v-2.41c0.002-3.508,1.459-5.59,5.592-5.59H30v4h-2.287 C26.104,16,26,16.6,26,17.723V20h4L29.368,24z">
+              </path>
+            </svg>
+            Đăng nhập với tài khoản facebook
+          </VBtn>
 
-        <h3 class="mb-0">
-          Please log in to experience our system
+          <VBtn class="login-sercives mt-5">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="39" height="32" viewBox="0 0 48 48">
+              <path fill="#FFC107"
+                d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z">
+              </path>
+              <path fill="#FF3D00"
+                d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z">
+              </path>
+              <path fill="#4CAF50"
+                d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z">
+              </path>
+              <path fill="#1976D2"
+                d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z">
+              </path>
+            </svg>
+            Đăng nhập với tài khoản google
+          </VBtn>
+        </div>
+
+        <VCol cols="12" class="d-flex align-center">
+          <VDivider />
+          <span class="mx-4">
+            <VIcon class="me-2" icon="mdi-music-circle" size="22" />
+          </span>
+          <VDivider />
+        </VCol>
+
+        <h3 class="mb-0 mt-5">
+          Hãy tiến hành đăng nhập để trải nghiệm hệ thống
         </h3>
       </VCardText>
 
@@ -38,49 +77,39 @@ const isPasswordVisible = ref(false)
           <VRow>
             <!-- email -->
             <VCol cols="12">
-              <VTextField v-model="form.email" autofocus placeholder="johndoe@email.com" label="Email" type="email" />
+              <VTextField v-model="form.email" autofocus placeholder="Nhập email hoặc tên tài khoản của bạn"
+                label="Tài khoản" type="email" />
             </VCol>
 
             <!-- password -->
             <VCol cols="12">
-              <VTextField v-model="form.password" label="Password" placeholder="············"
+              <VTextField v-model="form.password" label="Mật khẩu" placeholder="Nhập mật khẩu"
                 :type="isPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="isPasswordVisible ? 'bx-hide' : 'bx-show'"
                 @click:append-inner="isPasswordVisible = !isPasswordVisible" />
 
-              <!-- remember me checkbox -->
               <div class="d-flex align-center justify-space-between flex-wrap mt-1 mb-4">
-                <VCheckbox v-model="form.remember" label="Remember me" />
+                <VCheckbox v-model="form.remember" label="Ghi nhớ mật khẩu" />
 
                 <RouterLink class="text-primary ms-2 mb-1" to="javascript:void(0)">
-                  Forgot Password?
+                  Quên mật khẩu
                 </RouterLink>
               </div>
 
-              <!-- login button -->
-              <VBtn block type="submit">
-                Login
+              <VBtn block @click="handleLogin">
+                Đăng nhập
               </VBtn>
+
             </VCol>
 
-            <!-- create account -->
             <VCol cols="12" class="text-center text-base">
-              <span>New on our platform?</span>
+              <span>Bạn chưa có tài khoản?</span>
               <RouterLink class="text-primary ms-2" to="/register">
-                Create an account
+                Ấn vào đây để tạo mới
               </RouterLink>
             </VCol>
 
-            <VCol cols="12" class="d-flex align-center">
-              <VDivider />
-              <span class="mx-4">or</span>
-              <VDivider />
-            </VCol>
 
-            <!-- auth providers -->
-            <VCol cols="12" class="text-center">
-              <AuthProvider />
-            </VCol>
           </VRow>
         </VForm>
       </VCardText>
@@ -88,10 +117,68 @@ const isPasswordVisible = ref(false)
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" >
 @use "@core/scss/template/pages/page-auth.scss";
 
+.login-sercives .v-btn__content {
+  min-width: 300px !important;
+  display: flex;
+  justify-content: start;
+}
+
 .container-card-login {
-  height: 1000px !important
+  height: 1000px !important;
+  background-color: #27205f !important;
+}
+
+.v-card-item {
+  // align-items: start !important;
+  justify-content: start;
+  text-align: left;
+}
+
+.login-image-card {
+  background: url('https://i.pinimg.com/originals/2d/9a/99/2d9a99324ede6e2787db071ffeae8ca9.gif') center center no-repeat !important;
+  background-size: cover !important;
+  width: 100%;
+  height: 300px;
+  border-top-right-radius: unset;
+  border-bottom-right-radius: unset;
+}
+
+.v-card-item {
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+}
+
+.login-title-top {
+  font-size: 36px !important;
+  margin-bottom: 0;
+}
+
+.login-form-card {
+  // background-color: #27205f !important;
+  // color: #ffffff !important;
+  border-top-left-radius: unset;
+  border-bottom-left-radius: unset;
+}
+
+.login-title-bot {
+  font-size: 46px !important;
+  color: #6358DC;
+  font-weight: 900;
+  font-family: inherit;
+}
+
+.v-btn {
+  height: 3.4rem !important;
+}
+
+.login-sercives {
+  background-color: #f1f1f1 !important;
+  color: #2a1e1ef0 !important;
+  text-transform: none;
+  width: 100% !important;
+  font-size: 16px;
 }
 </style>

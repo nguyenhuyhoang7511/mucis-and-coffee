@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import axiosClient from '@/apis/axios/axiosConfig'
+import { API_ENDPOINT } from '@/constant/environments'
 import AnalyticsCongratulations from '@/views/dashboard/AnalyticsCongratulations.vue'
 import AnalyticsFinanceTabs from '@/views/dashboard/AnalyticsFinanceTab.vue'
 import AnalyticsOrderStatistics from '@/views/dashboard/AnalyticsOrderStatistics.vue'
@@ -14,7 +15,7 @@ import paypal from '@images/cards/paypal-error.png'
 import wallet from '@images/cards/wallet-info.png'
 
 const getData = async () => {
-  const { data } = await axiosClient.get(`http://localhost:8000/api/test`);
+  const { data } = await axiosClient.get(`http://${API_ENDPOINT}/api/test`);
 }
 onMounted(() => {
   getData();
