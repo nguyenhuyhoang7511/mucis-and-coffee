@@ -1,13 +1,37 @@
 <script setup lang="ts">
+import { ErrorMessage, Field, Form } from 'vee-validate';
 
+import * as yup from 'yup';
 const form = ref({
   email: '',
+  userName: '',
   password: '',
-  remember: false,
+  confirm: '',
+  agree: false,
 })
 
 const isPasswordVisible = ref(false)
 const isConfirmPasswordVisible = ref(false)
+
+const schema = yup.object({
+  email: yup.string().required("Email không được để trống").email("Email không đúng định dạng").matches(/@gmail\.com$/, "Email phải có định dạng là @gmail.com"),
+  userName: yup.string().required("Tên người dùng không được để trống")
+  ,
+  password: yup
+    .string()
+    .required('Mật khẩu không được để trống')
+    .min(8, 'Mật khẩu cần có tối thiểu 8 kí tự')
+    .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, 'Mật khẩu yêu cầu chứa cả chữ và số'),
+  confirmPassword: yup
+    .string()
+    .required('Xác nhận mật khẩu là bắt buộc')
+    .oneOf([yup.ref('password'), ''], 'Xác nhận mật khẩu không chính xác'),
+  agree: yup.boolean().oneOf([true], 'Bạn cần phải đồng ý với các điều kiện và điều khoản để tiếp tục.'),
+});
+
+const handleRegister = () => {
+  console.log(form.value);
+}
 </script>
 
 <template>
@@ -16,15 +40,13 @@ const isConfirmPasswordVisible = ref(false)
 
     <VCard class="auth-card pa-4 pt-7 login-form-card" max-width="600" height="75%">
 
-      <VCardItem class="justify-center mb-4">
+      <VCardItem class="justify-center ">
         <VCardTitle class="text-2xl ">
           <p class="login-title-bot">
             MUSIC & COFFEE
           </p>
         </VCardTitle>
-
       </VCardItem>
-
 
       <VCardText class="pt-2">
         <h3 class="mb-0 mt-5">
@@ -33,33 +55,54 @@ const isConfirmPasswordVisible = ref(false)
       </VCardText>
 
       <VCardText>
-        <VForm @submit.prevent="$router.push('/')">
+        <Form :validation-schema="schema" v-slot="{ errors, meta }">
           <VRow>
             <!-- email -->
             <VCol cols="12">
-              <VTextField v-model="form.email" autofocus placeholder="Nhập email hoặc tên tài khoản của bạn"
-                label="Tài khoản" type="email" />
+              <Field name="email" v-model="form.email" v-slot="{ handleChange }">
+                <VTextField @input="handleChange" v-model="form.email" autofocus placeholder="Nhập email của bạn "
+                  label="Email" type="email" />
+                <ErrorMessage name="email" class="show-error-message" />
+              </Field>
             </VCol>
 
             <VCol cols="12">
-              <VTextField v-model="form.password" label="Mật khẩu" placeholder="Nhập mật khẩu"
-                :type="isPasswordVisible ? 'text' : 'password'"
-                :append-inner-icon="isPasswordVisible ? 'bx-hide' : 'bx-show'"
-                @click:append-inner="isPasswordVisible = !isPasswordVisible" />
+              <Field name="userName" v-model="form.userName" v-slot="{ handleChange }">
+                <VTextField @input="handleChange" v-model="form.userName" label="Tên người dùng"
+                  placeholder="Nhập tên người dùng" type="text" />
+                <ErrorMessage name="userName" class="show-error-message" />
+              </Field>
             </VCol>
-            <!-- password -->
+
             <VCol cols="12">
-              <VTextField v-model="form.password" label="Xác nhận mật khẩu" placeholder="Xác nhận mật khẩu"
-                :type="isConfirmPasswordVisible ? 'text' : 'password'"
-                :append-inner-icon="isConfirmPasswordVisible ? 'bx-hide' : 'bx-show'"
-                @click:append-inner="isConfirmPasswordVisible = !isConfirmPasswordVisible" />
+              <Field name="password" v-model="form.password" v-slot="{ handleChange }">
+                <VTextField @input="handleChange" v-model="form.password" label="Mật khẩu" placeholder="Nhập mật khẩu"
+                  :type="isPasswordVisible ? 'text' : 'password'"
+                  :append-inner-icon="isPasswordVisible ? 'bx-hide' : 'bx-show'"
+                  @click:append-inner="isPasswordVisible = !isPasswordVisible" />
+                <ErrorMessage name="password" class="show-error-message" />
+              </Field>
+            </VCol>
+
+            <VCol cols="12">
+              <Field name="confirmPassword" v-model="form.confirm" v-slot="{ handleChange }">
+                <VTextField @input="handleChange" label="Xác nhận mật khẩu" placeholder="Xác nhận mật khẩu"
+                  :type="isConfirmPasswordVisible ? 'text' : 'password'"
+                  :append-inner-icon="isConfirmPasswordVisible ? 'bx-hide' : 'bx-show'"
+                  @click:append-inner="isConfirmPasswordVisible = !isConfirmPasswordVisible" />
+                <ErrorMessage name="confirmPassword" class="show-error-message" />
+              </Field>
 
               <div class="d-flex align-center justify-space-between flex-wrap mt-3 mb-4">
-                <VCheckbox v-model="form.remember"
-                  label="Tôi đồng ý với các điều kiện và điều khoản khi sử dụng hệ thống" />
+                <Field name="agree" v-model="form.agree" v-slot="{ handleChange }">
+                  <VCheckbox v-model="form.agree"
+                    label="Tôi đồng ý với các điều kiện và điều khoản khi sử dụng hệ thống" />
+                  <ErrorMessage name="agree" class="show-error-message" />
+
+                </Field>
               </div>
 
-              <VBtn block type="submit" class="mt-5">
+              <VBtn block class="mt-5" @click="handleRegister" :disabled="!meta.valid">
                 Đăng kí
               </VBtn>
 
@@ -71,10 +114,8 @@ const isConfirmPasswordVisible = ref(false)
                 Hãy tiến hành đăng nhập
               </RouterLink>
             </VCol>
-
-
           </VRow>
-        </VForm>
+        </Form>
       </VCardText>
     </VCard>
   </div>
@@ -87,6 +128,13 @@ const isConfirmPasswordVisible = ref(false)
   min-width: 300px !important;
   display: flex;
   justify-content: start;
+}
+
+.show-error-message {
+  color: #ff3535;
+  margin-left: 4px;
+  margin-top: 2px;
+  font-size: 13px !important;
 }
 
 .container-card-login {
