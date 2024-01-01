@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { ErrorMessage, Field, Form } from 'vee-validate';
 
+import * as yup from 'yup';
 const form = ref({
   email: '',
   password: '',
@@ -9,10 +11,13 @@ console.log("abc");
 
 const isPasswordVisible = ref(false)
 const handleLogin = () => {
-  console.log("hello");
-
-  console.log(form.value)
+  console.log(form.value);
 }
+
+const schema = yup.object({
+  email: yup.string().required("Trường này không được để trống"),
+  password: yup.string().required("Mật khẩu không được để trống"),
+});
 
 </script>
 
@@ -73,33 +78,32 @@ const handleLogin = () => {
       </VCardText>
 
       <VCardText>
-        <VForm @submit.prevent="$router.push('/')">
+        <Form :validation-schema="schema" v-slot="{ errors, meta }">
           <VRow>
-            <!-- email -->
             <VCol cols="12">
-              <VTextField v-model="form.email" autofocus placeholder="Nhập email hoặc tên tài khoản của bạn"
-                label="Tài khoản" type="email" />
+              <Field name="email" v-model="form.email" v-slot="{ handleChange }">
+                <VTextField @input="handleChange" autofocus placeholder="Nhập email hoặc tên tài khoản của bạn"
+                  label="Tài khoản" type="email" />
+                <ErrorMessage name="email" class="show-error-message" />
+              </Field>
             </VCol>
-
-            <!-- password -->
             <VCol cols="12">
-              <VTextField v-model="form.password" label="Mật khẩu" placeholder="Nhập mật khẩu"
-                :type="isPasswordVisible ? 'text' : 'password'"
-                :append-inner-icon="isPasswordVisible ? 'bx-hide' : 'bx-show'"
-                @click:append-inner="isPasswordVisible = !isPasswordVisible" />
-
+              <Field name="password" v-model="form.password" v-slot="{ handleChange, meta, }">
+                <VTextField v-model="form.password" label="Mật khẩu" placeholder="Nhập mật khẩu"
+                  :type="isPasswordVisible ? 'text' : 'password'"
+                  :append-inner-icon="isPasswordVisible ? 'bx-hide' : 'bx-show'"
+                  @click:append-inner="isPasswordVisible = !isPasswordVisible" />
+                <ErrorMessage name="password" class="show-error-message" />
+              </Field>
               <div class="d-flex align-center justify-space-between flex-wrap mt-1 mb-4">
                 <VCheckbox v-model="form.remember" label="Ghi nhớ mật khẩu" />
-
-                <RouterLink class="text-primary ms-2 mb-1" to="javascript:void(0)">
+                <a class="text-primary ms-2 mb-1">
                   Quên mật khẩu
-                </RouterLink>
+                </a>
               </div>
-
-              <VBtn block @click="handleLogin">
+              <VBtn block class="mt-5" :disabled="!meta.valid" @click="handleLogin">
                 Đăng nhập
               </VBtn>
-
             </VCol>
 
             <VCol cols="12" class="text-center text-base">
@@ -111,7 +115,7 @@ const handleLogin = () => {
 
 
           </VRow>
-        </VForm>
+        </Form>
       </VCardText>
     </VCard>
   </div>
@@ -124,6 +128,13 @@ const handleLogin = () => {
   min-width: 300px !important;
   display: flex;
   justify-content: start;
+}
+
+.show-error-message {
+  color: #ff3535;
+  margin-left: 4px;
+  margin-top: 30px;
+  font-size: 13px !important;
 }
 
 .container-card-login {
