@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import SnackbarCustom from "@/@core/components/snackbar/SnackbarCustom.vue";
+import axiosClient from "@/apis/axios/axiosConfig";
+import { API_ENDPOINT } from "@/constant/environments";
 import { ErrorMessage, Field, Form } from "vee-validate";
 
 import * as yup from "yup";
@@ -44,7 +46,7 @@ const schema = yup.object({
 
 const handleRegister = async () => {
   try {
-    // await axiosClient.post(`${API_ENDPOINT}/register`, form.value);
+    await axiosClient.post(`${API_ENDPOINT}/register`, form.value);
     registerNotification.value.state = true;
     registerNotification.value.message = "Đăng kí tài khoản thành công";
   } catch (error) {
@@ -143,7 +145,7 @@ const handleRegister = async () => {
                 </Field>
               </div>
 
-              <VBtn block class="mt-5" @click="handleRegister" :disabled="meta.valid">
+              <VBtn block class="mt-5" @click="handleRegister" :disabled="!meta.valid">
                 Đăng kí
               </VBtn>
             </VCol>
