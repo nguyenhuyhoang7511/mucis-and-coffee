@@ -84,7 +84,7 @@ function formatNumber(value: number) {
 
 .container-image {
   width: 100%;
-  height: 18rem;
+  height: 12rem;
   border-bottom: 1px solid #fdd;
 }
 

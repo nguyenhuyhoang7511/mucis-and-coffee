@@ -7,8 +7,6 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
-
 </script>
 
 <template>
@@ -19,10 +17,10 @@ const props = defineProps<Props>()
           <div class="avatar">
             <img :src="props.avatar" alt="">
             <VChip class="duration-box" variant="flat">
-            {{ props.duration }}
-          </VChip>
+              {{ props.duration }}
+            </VChip>
           </div>
-         
+
           <div class="infor">
             <span class="name">{{ props.name }}</span>
             <span class="fz-14">{{ props.author }}</span>
@@ -38,7 +36,8 @@ const props = defineProps<Props>()
 .v-card {
   border-radius: px;
 }
-.avatar{
+
+.avatar {
   position: relative;
 
 }
@@ -55,7 +54,8 @@ const props = defineProps<Props>()
   right: 0;
   height: 24px;
 }
-.v-chip{
+
+.v-chip {
   height: 22px !important;
   border-radius: 0px !important;
   padding: 4px !important;
@@ -68,9 +68,9 @@ const props = defineProps<Props>()
   font-family: Inter, sans-serif;
   font-weight: 800;
   line-height: 1.5em;
-  height: 2.7rem; 
+  height: 1.6rem;
   overflow: hidden;
-    
+
 }
 
 .infor {

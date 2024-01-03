@@ -155,32 +155,26 @@ const tabs = [
       <VDivider />
 
       <VWindow v-model="activeTab" class="mt-5 disable-tab-transition">
-        <!-- Account -->
         <VWindowItem value="drink">
           <VRow>
             <VCol cols="12" md="6" lg="3" v-for="item in listDrink">
               <CardProductItem :key="item.id" :name="item.name" :price="item.price" :image="item.image" />
-
             </VCol>
           </VRow>
         </VWindowItem>
 
-        <!-- Security -->
         <VWindowItem value="food">
           <VRow>
             <VCol cols="12" md="6" lg="3" v-for="item in listFood">
               <CardProductItem :key="item.id" :name="item.name" :price="item.price" :image="item.image" />
-
             </VCol>
           </VRow>
         </VWindowItem>
 
-        <!-- Notification -->
         <VWindowItem value="cake">
           <VRow>
             <VCol cols="12" md="6" lg="3" v-for="item in listCake">
               <CardProductItem :key="item.id" :name="item.name" :price="item.price" :image="item.image" />
-
             </VCol>
           </VRow>
         </VWindowItem>
