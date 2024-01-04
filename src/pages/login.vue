@@ -1,41 +1,58 @@
 <script setup lang="ts">
-import { ErrorMessage, Field, Form } from 'vee-validate';
+import SnackbarCustom from "@/@core/components/snackbar/SnackbarCustom.vue";
+import { ErrorMessage, Field, Form } from "vee-validate";
+import { ToastState } from ".././types/enum";
 
-import * as yup from 'yup';
+import axiosClient from "@/apis/axios/axiosConfig";
+import { API_ENDPOINT } from "@/constant/environments";
+import * as yup from "yup";
 const form = ref({
-  email: '',
-  password: '',
+  email: "",
+  password: "",
   remember: false,
-})
-console.log("abc");
+});
+const registerNotification = ref({
+  state: false,
+  message: "",
+  type: ToastState.Success,
+});
 
-const isPasswordVisible = ref(false)
-const handleLogin = () => {
-  console.log(form.value);
-}
+const isPasswordVisible = ref(false);
+
+const handleLogin = async () => {
+  console.log(registerNotification);
+
+  try {
+    await axiosClient.post(`${API_ENDPOINT}/login`, form.value);
+    registerNotification.value.state = true;
+    registerNotification.value.message = "Đăng nhập tài khoản thành công";
+    registerNotification.value.type = ToastState.Success;
+
+  } catch (error) {
+    registerNotification.value.message = "Đăng kí tài khoản thất bại";
+    registerNotification.value.type = ToastState.Error;
+  }
+};
 
 const schema = yup.object({
   email: yup.string().required("Trường này không được để trống"),
   password: yup.string().required("Mật khẩu không được để trống"),
 });
-
 </script>
 
 <template>
-  <div class="auth-wrapper d-flex align-center justify-center pa-4 container-card-login ">
+  <div class="auth-wrapper d-flex align-center justify-center pa-4 container-card-login">
     <VCard class="auth-card pa-4 pt-7 login-image-card" width="1000" height="75%"></VCard>
     <VCard class="auth-card pa-4 pt-7 login-form-card" max-width="600" height="75%">
       <VCardItem class="justify-center mb-4">
-        <VCardTitle class="text-2xl ">
-          <p class="login-title-bot">
-            MUSIC & COFFEE
-          </p>
+        <VCardTitle class="text-2xl">
+          <p class="login-title-bot">MUSIC & COFFEE</p>
         </VCardTitle>
       </VCardItem>
 
       <VCardText class="pt-2">
         <div class="d-flex flex-column justify-center w-100">
-          <VBtn class="login-sercives ">
+          <VBtn class="login-sercives">
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="41" height="32" viewBox="0 0 48 48">
               <path fill="#3f51b5" d="M24 4A20 20 0 1 0 24 44A20 20 0 1 0 24 4Z"></path>
               <path fill="#fff"
@@ -72,9 +89,7 @@ const schema = yup.object({
           <VDivider />
         </VCol>
 
-        <h3 class="mb-0 mt-5">
-          Hãy tiến hành đăng nhập để trải nghiệm hệ thống
-        </h3>
+        <h3 class="mb-0 mt-5">Hãy tiến hành đăng nhập để trải nghiệm hệ thống</h3>
       </VCardText>
 
       <VCardText>
@@ -88,7 +103,7 @@ const schema = yup.object({
               </Field>
             </VCol>
             <VCol cols="12">
-              <Field name="password" v-model="form.password" v-slot="{ handleChange, meta, }">
+              <Field name="password" v-model="form.password" v-slot="{ handleChange, meta }">
                 <VTextField v-model="form.password" label="Mật khẩu" placeholder="Nhập mật khẩu"
                   :type="isPasswordVisible ? 'text' : 'password'"
                   :append-inner-icon="isPasswordVisible ? 'bx-hide' : 'bx-show'"
@@ -97,9 +112,7 @@ const schema = yup.object({
               </Field>
               <div class="d-flex align-center justify-space-between flex-wrap mt-1 mb-4">
                 <VCheckbox v-model="form.remember" label="Ghi nhớ mật khẩu" />
-                <a class="text-primary ms-2 mb-1">
-                  Quên mật khẩu
-                </a>
+                <a class="text-primary ms-2 mb-1"> Quên mật khẩu </a>
               </div>
               <VBtn block class="mt-5" :disabled="!meta.valid" @click="handleLogin">
                 Đăng nhập
@@ -112,16 +125,19 @@ const schema = yup.object({
                 Ấn vào đây để tạo mới
               </RouterLink>
             </VCol>
-
-
           </VRow>
         </Form>
       </VCardText>
     </VCard>
+    <SnackbarCustom :type="registerNotification.type" :isShow="registerNotification.state"
+      :message="registerNotification.message" :onClose="() => {
+        registerNotification.state = false;
+      }
+        " />
   </div>
 </template>
 
-<style lang="scss" >
+<style lang="scss">
 @use "@core/scss/template/pages/page-auth.scss";
 
 .login-sercives .v-btn__content {
@@ -149,7 +165,7 @@ const schema = yup.object({
 }
 
 .login-image-card {
-  background: url('https://i.pinimg.com/originals/2d/9a/99/2d9a99324ede6e2787db071ffeae8ca9.gif') center center no-repeat !important;
+  background: url("https://i.pinimg.com/originals/2d/9a/99/2d9a99324ede6e2787db071ffeae8ca9.gif") center center no-repeat !important;
   background-size: cover !important;
   width: 100%;
   height: 300px;
@@ -176,7 +192,7 @@ const schema = yup.object({
 
 .login-title-bot {
   font-size: 46px !important;
-  color: #6358DC;
+  color: #6358dc;
   font-weight: 900;
   font-family: inherit;
 }

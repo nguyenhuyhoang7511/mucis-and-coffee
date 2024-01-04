@@ -59,6 +59,10 @@ const router = createRouter({
           component: () => import('../pages/register.vue'),
         },
         {
+          path: 'active',
+          component: () => import('../pages/active.vue'),
+        },
+        {
           path: '/:pathMatch(.*)*',
           component: () => import('../pages/[...all].vue'),
         },

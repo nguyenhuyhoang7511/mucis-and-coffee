@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import SnackbarCustom from "@/@core/components/snackbar/SnackbarCustom.vue";
-import axiosClient from "@/apis/axios/axiosConfig";
-import { API_ENDPOINT } from "@/constant/environments";
 import { ErrorMessage, Field, Form } from "vee-validate";
+import { ToastState } from ".././types/enum";
 
 import * as yup from "yup";
 const form = ref({
@@ -18,7 +17,9 @@ const isConfirmPasswordVisible = ref(false);
 const registerNotification = ref({
   state: false,
   message: "",
+  type: ToastState.Success,
 });
+const router = useRouter();
 
 const schema = yup.object({
   email: yup
@@ -45,13 +46,27 @@ const schema = yup.object({
 });
 
 const handleRegister = async () => {
-  try {
-    await axiosClient.post(`${API_ENDPOINT}/register`, form.value);
-    registerNotification.value.state = true;
-    registerNotification.value.message = "Đăng kí tài khoản thành công";
-  } catch (error) {
-    registerNotification.value.message = "Đăng kí tài khoản thất bại";
-  }
+  registerNotification.value.state = true;
+  registerNotification.value.message = "Đăng kí tài khoản thành công";
+  registerNotification.value.type = ToastState.Success;
+  // router.push({ name: '/activate', params: { email: form.value.email } });
+  await router.push({
+    path: '/active',
+    query: { email: 'hoangnh@gmail.com' }
+  });
+
+  // try {
+  //   // await axiosClient.post(`${API_ENDPOINT}/register`, form.value);
+  //   registerNotification.value.state = true;
+  //   registerNotification.value.message = "Đăng kí tài khoản thành công";
+  //   registerNotification.value.type = ToastState.Success;
+  //   await router.push({ name: 'activate', params: { email: form.value.email } });
+
+  // } catch (error) {
+  //   registerNotification.value.message = "Đăng kí tài khoản thất bại";
+  //   registerNotification.value.type = ToastState.Error;
+
+  // }
 };
 </script>
 
@@ -76,76 +91,49 @@ const handleRegister = async () => {
             <!-- email -->
             <VCol cols="12">
               <Field name="email" v-model="form.email" v-slot="{ handleChange }">
-                <VTextField
-                  @input="handleChange"
-                  v-model="form.email"
-                  autofocus
-                  placeholder="Nhập email của bạn "
-                  label="Email"
-                  type="email"
-                />
+                <VTextField @input="handleChange" v-model="form.email" autofocus placeholder="Nhập email của bạn "
+                  label="Email" type="email" />
                 <ErrorMessage name="email" class="show-error-message" />
               </Field>
             </VCol>
 
             <VCol cols="12">
               <Field name="userName" v-model="form.userName" v-slot="{ handleChange }">
-                <VTextField
-                  @input="handleChange"
-                  v-model="form.userName"
-                  label="Tên người dùng"
-                  placeholder="Nhập tên người dùng"
-                  type="text"
-                />
+                <VTextField @input="handleChange" v-model="form.userName" label="Tên người dùng"
+                  placeholder="Nhập tên người dùng" type="text" />
                 <ErrorMessage name="userName" class="show-error-message" />
               </Field>
             </VCol>
 
             <VCol cols="12">
               <Field name="password" v-model="form.password" v-slot="{ handleChange }">
-                <VTextField
-                  @input="handleChange"
-                  v-model="form.password"
-                  label="Mật khẩu"
-                  placeholder="Nhập mật khẩu"
+                <VTextField @input="handleChange" v-model="form.password" label="Mật khẩu" placeholder="Nhập mật khẩu"
                   :type="isPasswordVisible ? 'text' : 'password'"
                   :append-inner-icon="isPasswordVisible ? 'bx-hide' : 'bx-show'"
-                  @click:append-inner="isPasswordVisible = !isPasswordVisible"
-                />
+                  @click:append-inner="isPasswordVisible = !isPasswordVisible" />
                 <ErrorMessage name="password" class="show-error-message" />
               </Field>
             </VCol>
 
             <VCol cols="12">
-              <Field
-                name="confirmPassword"
-                v-model="form.confirm"
-                v-slot="{ handleChange }"
-              >
-                <VTextField
-                  @input="handleChange"
-                  label="Xác nhận mật khẩu"
-                  placeholder="Xác nhận mật khẩu"
+              <Field name="confirmPassword" v-model="form.confirm" v-slot="{ handleChange }">
+                <VTextField @input="handleChange" label="Xác nhận mật khẩu" placeholder="Xác nhận mật khẩu"
                   :type="isConfirmPasswordVisible ? 'text' : 'password'"
-                  :append-inner-icon="isConfirmPasswordVisible ? 'bx-hide' : 'bx-show'"
-                  @click:append-inner="
+                  :append-inner-icon="isConfirmPasswordVisible ? 'bx-hide' : 'bx-show'" @click:append-inner="
                     isConfirmPasswordVisible = !isConfirmPasswordVisible
-                  "
-                />
+                    " />
                 <ErrorMessage name="confirmPassword" class="show-error-message" />
               </Field>
 
               <div class="d-flex align-center justify-space-between flex-wrap mt-3 mb-4">
                 <Field name="agree" v-model="form.agree" v-slot="{ handleChange }">
-                  <VCheckbox
-                    v-model="form.agree"
-                    label="Tôi đồng ý với các điều kiện và điều khoản khi sử dụng hệ thống"
-                  />
+                  <VCheckbox v-model="form.agree"
+                    label="Tôi đồng ý với các điều kiện và điều khoản khi sử dụng hệ thống" />
                   <ErrorMessage name="agree" class="show-error-message" />
                 </Field>
               </div>
 
-              <VBtn block class="mt-5" @click="handleRegister" :disabled="!meta.valid">
+              <VBtn block class="mt-5" @click="handleRegister" :disabled="meta.valid">
                 Đăng kí
               </VBtn>
             </VCol>
@@ -160,20 +148,16 @@ const handleRegister = async () => {
         </Form>
       </VCardText>
     </VCard>
-    <SnackbarCustom
-      :isShow="registerNotification.state"
-      :message="registerNotification.message"
-      :onClose="
-        () => {
-          registerNotification.state = false;
-        }
-      "
-    >
+    <SnackbarCustom :type="registerNotification.type" :isShow="registerNotification.state"
+      :message="registerNotification.message" :onClose="() => {
+        registerNotification.state = false;
+      }
+        ">
     </SnackbarCustom>
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use "@core/scss/template/pages/page-auth.scss";
 
 .login-sercives .v-btn__content {
@@ -201,8 +185,7 @@ const handleRegister = async () => {
 }
 
 .login-image-card {
-  background: url("https://i.pinimg.com/originals/2d/9a/99/2d9a99324ede6e2787db071ffeae8ca9.gif")
-    center center no-repeat !important;
+  background: url("https://i.pinimg.com/originals/2d/9a/99/2d9a99324ede6e2787db071ffeae8ca9.gif") center center no-repeat !important;
   background-size: cover !important;
   width: 100%;
   height: 300px;
