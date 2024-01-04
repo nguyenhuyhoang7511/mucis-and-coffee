@@ -62,7 +62,7 @@ const schema = yup.object({
                   type="number" />
                 <!-- <ErrorMessage name="password" class="show-error-message" /> -->
               </Field>
-              <VBtn block class="mt-5" :disabled="!meta.valid" @click="handleLogin">
+              <VBtn block class="mt-5" @click="handleLogin">
                 Xác thực
               </VBtn>
             </VCol>

@@ -3,6 +3,8 @@ import SnackbarCustom from "@/@core/components/snackbar/SnackbarCustom.vue";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { ToastState } from ".././types/enum";
 
+import axiosClient from "@/apis/axios/axiosConfig";
+import { API_ENDPOINT } from "@/constant/environments";
 import * as yup from "yup";
 const form = ref({
   email: "",
@@ -46,27 +48,21 @@ const schema = yup.object({
 });
 
 const handleRegister = async () => {
-  registerNotification.value.state = true;
-  registerNotification.value.message = "Đăng kí tài khoản thành công";
-  registerNotification.value.type = ToastState.Success;
-  // router.push({ name: '/activate', params: { email: form.value.email } });
-  await router.push({
-    path: '/active',
-    query: { email: 'hoangnh@gmail.com' }
-  });
+  try {
+    await axiosClient.post(`${API_ENDPOINT}/register`, form.value);
+    registerNotification.value.state = true;
+    registerNotification.value.message = "Đăng kí tài khoản thành công";
+    registerNotification.value.type = ToastState.Success;
+    await router.push({
+      path: '/active',
+      query: { email: form.value.email }
+    });
 
-  // try {
-  //   // await axiosClient.post(`${API_ENDPOINT}/register`, form.value);
-  //   registerNotification.value.state = true;
-  //   registerNotification.value.message = "Đăng kí tài khoản thành công";
-  //   registerNotification.value.type = ToastState.Success;
-  //   await router.push({ name: 'activate', params: { email: form.value.email } });
+  } catch (error) {
+    registerNotification.value.message = "Đăng kí tài khoản thất bại";
+    registerNotification.value.type = ToastState.Error;
 
-  // } catch (error) {
-  //   registerNotification.value.message = "Đăng kí tài khoản thất bại";
-  //   registerNotification.value.type = ToastState.Error;
-
-  // }
+  }
 };
 </script>
 
