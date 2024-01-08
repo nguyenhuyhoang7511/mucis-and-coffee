@@ -1,3 +1,4 @@
+import googleAuthCallbackVue from '@/pages/googleAuthCallback.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -11,6 +12,7 @@ const router = createRouter({
         {
           path: 'dashboard',
           component: () => import('../pages/dashboard.vue'),
+          meta:{requiresAuth : true}
         },
         {
           path: 'music',

@@ -129,7 +129,7 @@ const handleRegister = async () => {
                 </Field>
               </div>
 
-              <VBtn block class="mt-5" @click="handleRegister" :disabled="meta.valid">
+              <VBtn block class="mt-5" @click="handleRegister" :disabled="!meta.valid">
                 Đăng kí
               </VBtn>
             </VCol>

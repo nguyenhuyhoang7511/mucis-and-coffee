@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import SnackbarCustom from "@/@core/components/snackbar/SnackbarCustom.vue";
-import { ErrorMessage, Field, Form } from "vee-validate";
-import { ToastState } from ".././types/enum";
-
 import axiosClient from "@/apis/axios/axiosConfig";
 import { API_ENDPOINT } from "@/constant/environments";
+import { ErrorMessage, Field, Form } from "vee-validate";
 import * as yup from "yup";
+import { ToastState } from ".././types/enum";
+
 const form = ref({
   email: "",
   password: "",
@@ -18,26 +18,32 @@ const registerNotification = ref({
 });
 
 const isPasswordVisible = ref(false);
+const schema = yup.object({
+  email: yup.string().required("Trường này không được để trống"),
+  password: yup.string().required("Mật khẩu không được để trống"),
+});
 
 const handleLogin = async () => {
-  console.log(registerNotification);
 
   try {
     await axiosClient.post(`${API_ENDPOINT}/login`, form.value);
     registerNotification.value.state = true;
     registerNotification.value.message = "Đăng nhập tài khoản thành công";
     registerNotification.value.type = ToastState.Success;
-
   } catch (error) {
     registerNotification.value.message = "Đăng kí tài khoản thất bại";
     registerNotification.value.type = ToastState.Error;
   }
 };
 
-const schema = yup.object({
-  email: yup.string().required("Trường này không được để trống"),
-  password: yup.string().required("Mật khẩu không được để trống"),
-});
+const loginWithGoogle = async () => {
+  try {
+    const response = await axiosClient.get(`${API_ENDPOINT}/auth/google`);
+    window.location.href = response.data.url
+  } catch (error) {
+    console.error("Lỗi đăng nhập:", error);
+  }
+};
 </script>
 
 <template>
@@ -62,7 +68,7 @@ const schema = yup.object({
             Đăng nhập với tài khoản facebook
           </VBtn>
 
-          <VBtn class="login-sercives mt-5">
+          <VBtn class="login-sercives mt-5" @click="loginWithGoogle">
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="39" height="32" viewBox="0 0 48 48">
               <path fill="#FFC107"
                 d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z">
@@ -169,8 +175,8 @@ const schema = yup.object({
   background-size: cover !important;
   width: 100%;
   height: 300px;
-  border-top-right-radius: unset;
-  border-bottom-right-radius: unset;
+  border-top-right-radius: unset !important;
+  border-bottom-right-radius: unset !important;
 }
 
 .v-card-item {
@@ -186,8 +192,8 @@ const schema = yup.object({
 .login-form-card {
   // background-color: #27205f !important;
   // color: #ffffff !important;
-  border-top-left-radius: unset;
-  border-bottom-left-radius: unset;
+  border-top-left-radius: unset !important;
+  border-bottom-left-radius: unset !important;
 }
 
 .login-title-bot {

@@ -4,6 +4,8 @@ import { ToastState } from ".././types/enum";
 
 import axiosClient from "@/apis/axios/axiosConfig";
 import { API_ENDPOINT } from "@/constant/environments";
+import { useRouter } from 'vue-router';
+
 import * as yup from "yup";
 const form = ref({
   email: "",
@@ -17,20 +19,32 @@ const activeToast = ref({
 
 
 const route = useRoute();
+const router = useRouter();
+
+
 onMounted(() => {
   form.value.email = route.query.email as string;
 });
 
 
-const handleLogin = async () => {
+const handleActive = async () => {
+  let timeoutId; // Biến để lưu ID của timeout
+
   try {
     await axiosClient.post(`${API_ENDPOINT}/active-acount`, form.value);
     activeToast.value.state = true;
-    activeToast.value.message = "Kích hoạt thành công";
+    activeToast.value.message = "Kích hoạt thành công, hãy tiến hành đăng nhập";
     activeToast.value.type = ToastState.Success;
+    timeoutId = setTimeout(() => {
+      router.push('/login');
+    }, 3000);
+
   } catch (error) {
+    activeToast.value.state = true;
     activeToast.value.message = "Kích hoạt thất bại";
     activeToast.value.type = ToastState.Error;
+    clearTimeout(timeoutId);
+
   }
 };
 
@@ -62,7 +76,7 @@ const schema = yup.object({
                   type="number" />
                 <!-- <ErrorMessage name="password" class="show-error-message" /> -->
               </Field>
-              <VBtn block class="mt-5" @click="handleLogin">
+              <VBtn block class="mt-5" @click="handleActive">
                 Xác thực
               </VBtn>
             </VCol>
@@ -70,9 +84,16 @@ const schema = yup.object({
         </Form>
       </VCardText>
     </VCard>
+    <SnackbarCustom :type="activeToast.type" :isShow="activeToast.state" :message="activeToast.message" :onClose="() => {
+      activeToast.state = false;
+    }
+      ">
+    </SnackbarCustom>
   </div>
 </template>
 
-<style lang="scss">
-@use "@core/scss/template/pages/page-auth.scss";
+<style lang="scss" scoped>
+.auth-wrapper {
+  min-block-size: calc(var(--vh, 1vh) * 100);
+}
 </style>
